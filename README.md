@@ -29,7 +29,7 @@ This project establishes a robust Data Preprocessing, Exploratory Data Analysis 
 The pipeline was engineered and verified on an actual local environment with the following specifications:
 *   **Processor:** Intel Core i5-10400F CPU
 *   **Memory:** 16GB RAM Baseline
-*   **File Path Target:** `C:\Users\mukhe\OneDrive\Documents\Jobaaj_DA Projects\hotel_bookings.csv`
+*   **File Path Target:** `C:\Users\mukhe\OneDrive\Documents\Jobaaj_DA Projects\hotel_bookings.csv` [2]
 *   **Dependencies:**
     ```bash
     pip install pandas numpy matplotlib sklearn
@@ -45,6 +45,14 @@ The raw dataset spans **119,390 rows** and 32 structural features. The pristine 
     *   `agent` / `company`: Null rows indicate direct personal bookings; imputed with a zero indicator (`0`).
     *   `country`: Null values standardized to placeholder category `"Unknown"`.
 3.  **Data Type Optimization:** Coerced `reservation_status_date` into a clean pandas `datetime` object for moving average computations.
+
+---
+
+## ⚠️ Challenges Faced & Analytical Mitigation
+1. **Pervasive Structural Data Redundancy:** The initial dataset contained high data redundancy with **31,994 duplicate rows**. Left unaddressed, this would have artificially inflated statistical metrics and skewed model distribution curves. *Mitigation:* Engineered a strict data cleaning function utilizing `.drop_duplicates()` to isolate a pristine dataset of **87,396 unique rows**.
+2. **Incomplete Identifiers and Sparse Demographics:** Vital classification columns such as `agent`, `company`, `children`, and `country` contained localized null values. *Mitigation:* Applied domain-specific missing value imputation: missing child counts were assigned to `0`, unlisted agents/companies were flagged as independent direct bookings (`0`), and missing country codes were bucketed into a standalone `"Unknown"` category to safeguard categorical distributions.
+3. **Multi-Collinearity and High-Cardinality Fields:** Encoding massive categorical strings like `market_segment` and `deposit_type` posed a risk of multi-collinearity (the dummy variable trap), which destabilizes regression coefficient estimates. *Mitigation:* Utilized Pandas `get_dummies()` with `drop_first=True` to strip the baseline indicator and optimize matrix mathematically.
+4. **Disparate Numerical Dimensions:** Predictive variables held wildly vast scales (e.g., `lead_time` spanned values up to hundreds of days, whereas `booking_changes` stayed in single digits). Left unscaled, the machine learning algorithms would prioritize large-scale features. *Mitigation:* Implemented Scikit-Learn’s `StandardScaler` to calculate standard normal distributions (z-scores) across all variables, exposing true feature impact weights.
 
 ---
 
@@ -82,7 +90,7 @@ The raw dataset spans **119,390 rows** and 32 structural features. The pristine 
     5.  `booking_changes` (**-0.282**): 🟢 *Decreases* cancellation risk; active booking modification indicates intention to stay.
 
 ### 2. Multiple Linear Regression (ADR Pricing Impact)
-*   **Model Baseline Intercept:** **$43.82**
+*   **Model Baseline Intercept:** **$43.82** [2]
 *   **Marginal Value per Guest Type:**
     *   Each additional **adult** structures a net ADR increase of **+$31.40** per night.
     *   Each additional **child** drives a premium ADR surge of **+$38.49** per night, confirming massive revenue potential in family suite allocations.
