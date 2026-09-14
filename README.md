@@ -1,13 +1,13 @@
 # Hotel Harmony: Data Insights for Optimized Operations
 
-## 📌 Project Overview
+##  Project Overview
 Faced with complex reservation patterns, operational bottlenecks, and volatile cancellation rates across property types, **Elite Hotels International** required an analytics-driven strategy to safeguard margins and optimize customer retention. 
 
 This project establishes a robust Data Preprocessing, Exploratory Data Analysis (EDA), and Predictive Modeling pipeline. By applying statistical regression to historical booking records, the project uncovers actionable insights into guest behavior, seasonal risk horizons, and financial indicators to enhance operational efficiency.
 
 ---
 
-## 📋 Business Problem & Objectives
+##  Business Problem & Objectives
 *   **Core Problem:** Elite Hotels International needs to optimize booking patterns, mitigate an overall baseline cancellation rate of **27.49%**, and maximize structural property revenue.
 *   **Key Objectives:**
     *   Expose macro trends across property structures (City vs. Resort Hotels).
@@ -17,7 +17,7 @@ This project establishes a robust Data Preprocessing, Exploratory Data Analysis 
 
 ---
 
-## 🛠️ Tools, Technologies & Libraries
+##  Tools, Technologies & Libraries
 *   **Data Processing & ETL:** Python (`Pandas`, `NumPy`) for missing value imputation, chronological mapping, and duplicate record mitigation.
 *   **Exploratory Data Analysis:** `Matplotlib` and `Seaborn` for historical trend evaluation, distribution plots, and correlation matrix maps.
 *   **Statistical Modeling:** `Scikit-Learn` for multi-variable Logistic Regression classifiers and Multiple Linear Pricing Regressions.
@@ -25,7 +25,7 @@ This project establishes a robust Data Preprocessing, Exploratory Data Analysis 
 
 ---
 
-## 📦 System & Hardware Baseline
+##  System & Hardware Baseline
 The pipeline was engineered and verified on an actual local environment with the following specifications:
 *   **Processor:** Intel Core i5-10400F CPU
 *   **Memory:** 16GB RAM Baseline
@@ -37,7 +37,7 @@ The pipeline was engineered and verified on an actual local environment with the
 
 ---
 
-## 📊 Data Pipeline Architecture & Cleaning
+##  Data Pipeline Architecture & Cleaning
 The raw dataset spans **119,390 rows** and 32 structural features. The pristine ETL cleaning pipeline processed the records through these structural changes:
 1.  **Duplicate Records Removed:** Identified and safely dropped **31,994** true duplicate entries, updating the analytical row count from 119,390 to a pristine **87,396** rows.
 2.  **Missing Value Imputation:**
@@ -48,7 +48,7 @@ The raw dataset spans **119,390 rows** and 32 structural features. The pristine 
 
 ---
 
-## ⚠️ Challenges Faced & Analytical Mitigation
+##  Challenges Faced & Analytical Mitigation
 1. **Pervasive Structural Data Redundancy:** The initial dataset contained high data redundancy with **31,994 duplicate rows**. Left unaddressed, this would have artificially inflated statistical metrics and skewed model distribution curves. *Mitigation:* Engineered a strict data cleaning function utilizing `.drop_duplicates()` to isolate a pristine dataset of **87,396 unique rows**.
 2. **Incomplete Identifiers and Sparse Demographics:** Vital classification columns such as `agent`, `company`, `children`, and `country` contained localized null values. *Mitigation:* Applied domain-specific missing value imputation: missing child counts were assigned to `0`, unlisted agents/companies were flagged as independent direct bookings (`0`), and missing country codes were bucketed into a standalone `"Unknown"` category to safeguard categorical distributions.
 3. **Multi-Collinearity and High-Cardinality Fields:** Encoding massive categorical strings like `market_segment` and `deposit_type` posed a risk of multi-collinearity (the dummy variable trap), which destabilizes regression coefficient estimates. *Mitigation:* Utilized Pandas `get_dummies()` with `drop_first=True` to strip the baseline indicator and optimize matrix mathematically.
@@ -56,7 +56,7 @@ The raw dataset spans **119,390 rows** and 32 structural features. The pristine 
 
 ---
 
-## 📈 Operational Insights & Empirical Metrics
+##  Operational Insights & Empirical Metrics
 
 ### 1. Basic Baseline Discoveries
 *   **Operational Horizon:** Guests book their accommodations an average of **79.89 days** in advance.
@@ -78,7 +78,7 @@ The raw dataset spans **119,390 rows** and 32 structural features. The pristine 
 
 ---
 
-## 🔬 Advanced Machine Learning Modeling
+##  Advanced Machine Learning Modeling
 
 ### 1. Advanced Logistic Regression (Cancellation Prediction)
 *   **Model Performance:** Achieved an overall baseline classification accuracy of **76.68%** in predicting whether a reservation would cancel or check out.
@@ -98,7 +98,7 @@ The raw dataset spans **119,390 rows** and 32 structural features. The pristine 
 
 ---
 
-## 🚀 Strategic Recommendations for Improvement
+##  Strategic Recommendations for Improvement
 1.  **Dynamic Deposit Scaling by Booking Window:** Because `lead_time` carries a heavy risk coefficient (+0.428), implement strict, non-refundable deposit thresholds for general transient bookings exceeding a 60-day horizon to reduce the 27.49% cancellation rate.
 2.  **Optimize Family-Centric Pricing Packages:** Since the presence of `children` commands a higher marginal premium (+$38.49) than an additional `adult` (+$31.40), automated pricing engines should reallocate standard inventories into premium family packages during peak seasons.
 3.  **Adjust Seasonal Overbooking Limits:** Leverage the empirical data showing August as both the highest revenue driver ($4.6M) and maximum cancellation risk window (32.18%). Safely expand overbooking margins up to 15-20% in August to guarantee 100% true occupancy without risking customer walk-aways.
